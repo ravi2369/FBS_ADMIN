@@ -27,10 +27,10 @@ public class FlightScheduleController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity addFlightSchedule(@RequestBody FlightSchedule flightSchedule, @RequestParam String startDateTime, @RequestParam String endDateTime) {
+    public ResponseEntity addFlightSchedule(@RequestBody FlightSchedule flightSchedule) {
         log.info("{}--> inside addFlightSchedule() <---{}");
         try {
-            return ResponseEntity.ok().body(flightScheduleService.addFlightSchedule(flightSchedule, startDateTime, endDateTime));
+            return ResponseEntity.ok().body(flightScheduleService.addFlightSchedule(flightSchedule));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class FlightScheduleController {
     public ResponseEntity modifyFlightSchedule(@RequestBody FlightSchedule flightSchedule, @RequestParam String startDateTime, @RequestParam String endDateTime) {
         log.info("{}--> inside modifyFlightSchedule() <---{}");
         try {
-            return ResponseEntity.ok().body(flightScheduleService.updateFlightSchedule(flightSchedule, startDateTime, endDateTime));
+            return ResponseEntity.ok().body(flightScheduleService.updateFlightSchedule(flightSchedule));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

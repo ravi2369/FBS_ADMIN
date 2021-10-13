@@ -4,9 +4,9 @@ import com.fbs.admin.exceptions.FBSException;
 import com.fbs.admin.model.FlightSchedule;
 
 public interface FlightScheduleService {
-    FlightSchedule addFlightSchedule(FlightSchedule flightSchedule, String startDateTime, String endDateTime) throws FBSException;
+    FlightSchedule addFlightSchedule(FlightSchedule flightSchedule) throws FBSException;
 
-    FlightSchedule updateFlightSchedule(FlightSchedule flightSchedule, String startDateTime, String endDateTime) throws FBSException;
+    FlightSchedule updateFlightSchedule(FlightSchedule flightSchedule) throws FBSException;
 
     String deleteFlightSchedule(Long id) throws FBSException;
 

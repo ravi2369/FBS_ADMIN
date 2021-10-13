@@ -36,7 +36,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     @Override
-    public FlightSchedule addFlightSchedule(FlightSchedule flightSchedule, String startDateTime, String endDateTime) {
+    public FlightSchedule addFlightSchedule(FlightSchedule flightSchedule) {
         if (flightSchedule.getAirLineCode() != null && flightSchedule.getFlightNumber() != null) {
             Optional<FlightSchedule> fs = flightScheduleRepository.findFlightSchedule(flightSchedule.getAirLineCode(), flightSchedule.getFlightNumber());
             if (fs.isPresent()) {
@@ -53,9 +53,9 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     if (flight.getToLocation().equalsIgnoreCase(flight.getToLocation())) {
                         flightSchedule.setToLocation(flight.getToLocation());
                     }
-                    if (startDateTime != null && endDateTime != null) {
-                        flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(startDateTime));
-                        flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(endDateTime));
+                    if (flightSchedule.getStartDateTime() != null && flightSchedule.getEndDataTime() != null) {
+                        flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightSchedule.getStartDateTime()));
+                        flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightSchedule.getEndDataTime()));
                     }
                     flightSchedule.setFlightModel(flight.getFlightModel());
                     flightSchedule.setMeal(flight.getMeal());
@@ -110,7 +110,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     @Override
-    public FlightSchedule updateFlightSchedule(FlightSchedule flightSchedule, String startDateTime, String endDateTime) {
+    public FlightSchedule updateFlightSchedule(FlightSchedule flightSchedule) {
         if (flightSchedule.getId() != null && flightSchedule.getAirLineCode() != null && flightSchedule.getFlightNumber() != null) {
             Optional<FlightSchedule> updateScheduleFlight = flightScheduleRepository.findById(flightSchedule.getId());
             if (updateScheduleFlight.isPresent()) {
@@ -122,9 +122,9 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                 if (airline != null) {
                     if (!airline.get().getStatus().toString().equalsIgnoreCase("true")) {
                         Flight flight = flightService.findFlight(flightSchedule.getFlightNumber());
-                        if (startDateTime != null && endDateTime != null) {
-                            flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(startDateTime));
-                            flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(endDateTime));
+                        if (flightSchedule.getStartDateTime() != null && flightSchedule.getEndDataTime() != null) {
+                            flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightSchedule.getStartDateTime()));
+                            flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightSchedule.getEndDataTime()));
                         }
                         flightSchedule.setFlight(flight);
                         return flightScheduleRepository.save(flightSchedule);
