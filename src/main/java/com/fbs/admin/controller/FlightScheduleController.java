@@ -1,6 +1,6 @@
 package com.fbs.admin.controller;
 
-import com.fbs.admin.model.FlightSchedule;
+import com.fbs.admin.model.dto.FlightScheduleDTO;
 import com.fbs.admin.service.AirlineService;
 import com.fbs.admin.service.FlightScheduleService;
 import com.fbs.admin.service.FlightService;
@@ -27,20 +27,20 @@ public class FlightScheduleController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity addFlightSchedule(@RequestBody FlightSchedule flightSchedule) {
+    public ResponseEntity addFlightSchedule(@RequestBody FlightScheduleDTO flightScheduleDTO) {
         log.info("{}--> inside addFlightSchedule() <---{}");
         try {
-            return ResponseEntity.ok().body(flightScheduleService.addFlightSchedule(flightSchedule));
+            return ResponseEntity.ok().body(flightScheduleService.addFlightSchedule(flightScheduleDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity modifyFlightSchedule(@RequestBody FlightSchedule flightSchedule, @RequestParam String startDateTime, @RequestParam String endDateTime) {
+    public ResponseEntity modifyFlightSchedule(@RequestBody FlightScheduleDTO flightScheduleDTO) {
         log.info("{}--> inside modifyFlightSchedule() <---{}");
         try {
-            return ResponseEntity.ok().body(flightScheduleService.updateFlightSchedule(flightSchedule));
+            return ResponseEntity.ok().body(flightScheduleService.updateFlightSchedule(flightScheduleDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

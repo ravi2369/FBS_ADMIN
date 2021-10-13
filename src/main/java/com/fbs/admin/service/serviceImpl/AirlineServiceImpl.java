@@ -30,7 +30,7 @@ public class AirlineServiceImpl implements AirlineService {
             if (!findById.isPresent()) {
                 Airline airline = new Airline();
                 BeanUtils.copyProperties(airlineDTO, airline, airlineDTO.getStatus());
-                if(airlineDTO.getStatus()!=null){
+                if (airlineDTO.getStatus() != null) {
                     if (airlineDTO.getStatus().toString().equalsIgnoreCase("Block")) {
                         airline.setStatus(true);
                     } else if (airlineDTO.getStatus().toString().equalsIgnoreCase("Unblock")) {
@@ -53,7 +53,7 @@ public class AirlineServiceImpl implements AirlineService {
             if (findById.isPresent()) {
                 Airline airline = new Airline();
                 BeanUtils.copyProperties(airlineDTO, airline, airlineDTO.getStatus());
-                if(airlineDTO.getStatus()!=null){
+                if (airlineDTO.getStatus() != null) {
                     if (airlineDTO.getStatus().toString().equalsIgnoreCase("Block")) {
                         airline.setStatus(true);
                     } else if (airlineDTO.getStatus().toString().equalsIgnoreCase("Unblock")) {
@@ -76,7 +76,7 @@ public class AirlineServiceImpl implements AirlineService {
                 Optional<AirlineDTO> airlineDTO = Optional.of(new AirlineDTO());
                 airlineDTO.get().setAirLineCode(airline.get().getAirLineCode());
                 airlineDTO.get().setAirLineName(airline.get().getAirLineName());
-                if(airline.get().getStatus()!=null){
+                if (airline.get().getStatus() != null) {
                     if (airline.get().getStatus().toString().equalsIgnoreCase("true")) {
                         airlineDTO.get().setStatus("Block");
                     } else if (airline.get().getStatus().toString().equalsIgnoreCase("false")) {
@@ -97,16 +97,16 @@ public class AirlineServiceImpl implements AirlineService {
         List<AirlineDTO> airlineDTOS = new ArrayList<>();
         for (Airline airline : airlines) {
             AirlineDTO airlineDTO = new AirlineDTO();
-            if(airline.getStatus()!=null){
+            if (airline.getStatus() != null) {
                 BeanUtils.copyProperties(airline, airlineDTO, airline.getStatus().toString());
-                if(airline.getStatus()!=null){
+                if (airline.getStatus() != null) {
                     if (airline.getStatus().toString().equalsIgnoreCase("true")) {
                         airlineDTO.setStatus("Block");
                     } else if (airline.getStatus().toString().equalsIgnoreCase("false")) {
                         airlineDTO.setStatus("Unblock");
                     }
                 }
-            }else{
+            } else {
                 BeanUtils.copyProperties(airline, airlineDTO);
             }
             airlineDTOS.add(airlineDTO);
