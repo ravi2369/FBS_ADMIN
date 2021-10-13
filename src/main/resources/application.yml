@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: /fbs/admin
+  port: 9001
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 100
+      pool-name: integration-pool
+      #      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+      connection-timeout: 30000
+      max-lifetime: 1800000
+    url: jdbc:mysql://localhost:3306/fbs_dev
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+---
+jackson:
+  date-format: "dd-MM-yyyy HH:mm:ss"
+
+
+
+
