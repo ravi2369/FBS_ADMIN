@@ -36,6 +36,8 @@ public class AirlineServiceImpl implements AirlineService {
                     } else if (airlineDTO.getStatus().toString().equalsIgnoreCase("Unblock")) {
                         airline.setStatus(false);
                     }
+                } else {
+                    airline.setStatus(false);
                 }
                 return airlineRepository.save(airline);
             } else

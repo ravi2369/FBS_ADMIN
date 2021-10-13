@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.fbs.admin.util.DateUtility.convertToFbsFormat;
@@ -42,16 +43,19 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
             }
             FlightSchedule flightSchedule = new FlightSchedule();
             Optional<AirlineDTO> airline = (airlineService.findAirline(flightScheduleDTO.getAirLineCode()));
-            if (airline != null) {
-                if (!airline.get().getStatus().toString().equalsIgnoreCase("true")) {
+            if (airline != null && airline.get().getStatus() != null) {
+                if (airline.get().getStatus().toString().equalsIgnoreCase("Unblock")) {
                     Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
-
-                    if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
+                    flightSchedule.setFlightNumber(flight.getFlightNumber());
+                    flightSchedule.setAirLineCode(airline.get().getAirLineCode());
+                    flightSchedule.setToLocation(flight.getToLocation());
+                    flightSchedule.setFromLocation(flight.getFromLocation());
+                    /*if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
                         flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
                     }
                     if (flight.getToLocation().equalsIgnoreCase(flightScheduleDTO.getToLocation())) {
                         flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
-                    }
+                    }*/
                     if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
                         flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getStartDateTime()));
                         flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getEndDataTime()));
@@ -60,6 +64,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     flightSchedule.setMeal(flight.getMeal());
                     flightSchedule.setFlight(flight);
                     return flightScheduleRepository.save(flightSchedule);
+
                 } else {
                     throw new FBSException("Airline with this " + airline.get().getAirLineCode() + " code is Blocked, please choose another airline");
                 }
@@ -83,10 +88,14 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                 FlightSchedule flightSchedule = new FlightSchedule();
                 Optional<AirlineDTO> airline = (airlineService.findAirline(flightScheduleDTO.getAirLineCode()));
                 if (airline != null) {
-                    if (!airline.get().getStatus().toString().equalsIgnoreCase("true")) {
+                    if (airline.get().getStatus().toString().equalsIgnoreCase("Unblock")) {
                         Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
+                        flightSchedule.setFlightNumber(flight.getFlightNumber());
+                        flightSchedule.setAirLineCode(airline.get().getAirLineCode());
+                        flightSchedule.setToLocation(flight.getToLocation());
+                        flightSchedule.setFromLocation(flight.getFromLocation());
 
-                        if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
+                       /* if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
                             flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
                         } else {
                             throw new FBSException("Flight is not available with this location " + flightScheduleDTO.getFromLocation() + " please choose different location");
@@ -95,7 +104,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                             flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
                         } else {
                             throw new FBSException("Flight is not available with this location " + flightScheduleDTO.getToLocation() + " please choose different location");
-                        }
+                        }*/
 
                         if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
                             flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightSchedule.getStartDateTime()));
@@ -134,20 +143,20 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     @Override
-    public FlightSchedule findFlightSchedule(Long flightId) throws FBSException {
-        if (flightId == null) {
-            throw new FBSException("Schedule Flight Id Required");
+    public FlightSchedule findFlightSchedule(String fromLocation, String toLocation, String startDateTime) throws FBSException {
+        if (startDateTime == null) {
+            throw new FBSException("Please select journey date");
         }
-        Optional<FlightSchedule> flightSchedule = flightScheduleRepository.findById(flightId);
-        if (!flightSchedule.isPresent()) {
-            throw new FBSException("Schedule Flight Id Required, Please Enter a valid Schedule Flight Id");
-        } else {
+        Object startDate = convertToFbsFormat(startDateTime);
+        Optional<FlightSchedule> flightSchedule = flightScheduleRepository.findScheduledFlights(fromLocation, toLocation, (LocalDateTime) startDate);
+        if (flightSchedule.isPresent())
             return flightSchedule.get();
-        }
+        else
+            throw new FBSException("flight schedule is not available");
     }
 
     @Override
-    public Iterable<FlightSchedule> findAllFlightSchedules() {
+    public List<FlightSchedule> findAllFlightSchedules() {
         return flightScheduleRepository.findAll();
     }
 }

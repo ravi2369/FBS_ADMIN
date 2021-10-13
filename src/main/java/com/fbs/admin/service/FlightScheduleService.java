@@ -4,6 +4,8 @@ import com.fbs.admin.exceptions.FBSException;
 import com.fbs.admin.model.FlightSchedule;
 import com.fbs.admin.model.dto.FlightScheduleDTO;
 
+import java.util.List;
+
 public interface FlightScheduleService {
     FlightSchedule addFlightSchedule(FlightScheduleDTO flightScheduleDTO) throws FBSException;
 
@@ -11,7 +13,7 @@ public interface FlightScheduleService {
 
     String deleteFlightSchedule(Long id) throws FBSException;
 
-    FlightSchedule findFlightSchedule(Long id) throws FBSException;
+    FlightSchedule findFlightSchedule(String fromLocation, String toLocation, String startDateTime) throws FBSException;
 
-    Iterable<FlightSchedule> findAllFlightSchedules();
+    List<FlightSchedule> findAllFlightSchedules();
 }
