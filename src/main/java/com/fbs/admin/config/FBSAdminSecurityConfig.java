@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class FBSAdminSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] PUBLIC_MATCHES = {
-
             "/airline/**",
             "/flight/booking/**",
             "/flight/**",
@@ -31,8 +30,10 @@ public class FBSAdminSecurityConfig extends WebSecurityConfigurerAdapter {
             "/wishlist/**",
             "/cart/**",
             "/subscriptions/**",
-            "/**"
+            "/**",
+            "/login/"
     };
+
     @Autowired
     private MyUserDetailsService myUserDetailsService;
     @Autowired
