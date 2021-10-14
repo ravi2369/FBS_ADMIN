@@ -26,7 +26,6 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     private AirlineService airlineService;
     private FlightService flightService;
 
-
     @Autowired
     public FlightScheduleServiceImpl(FlightScheduleRepository flightScheduleRepository, AirlineService airlineService, FlightService flightService) {
         this.flightScheduleRepository = flightScheduleRepository;
@@ -48,14 +47,8 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
                     flightSchedule.setFlightNumber(flight.getFlightNumber());
                     flightSchedule.setAirLineCode(airline.get().getAirLineCode());
-                    flightSchedule.setToLocation(flight.getToLocation());
-                    flightSchedule.setFromLocation(flight.getFromLocation());
-                    /*if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
-                        flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
-                    }
-                    if (flight.getToLocation().equalsIgnoreCase(flightScheduleDTO.getToLocation())) {
-                        flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
-                    }*/
+                    flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
+                    flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
                     if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
                         flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getStartDateTime()));
                         flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getEndDataTime()));
@@ -92,20 +85,9 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                         Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
                         flightSchedule.setFlightNumber(flight.getFlightNumber());
                         flightSchedule.setAirLineCode(airline.get().getAirLineCode());
-                        flightSchedule.setToLocation(flight.getToLocation());
-                        flightSchedule.setFromLocation(flight.getFromLocation());
-
-                       /* if (flight.getFromLocation().equalsIgnoreCase(flightScheduleDTO.getFromLocation())) {
-                            flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
-                        } else {
-                            throw new FBSException("Flight is not available with this location " + flightScheduleDTO.getFromLocation() + " please choose different location");
-                        }
-                        if (flight.getToLocation().equalsIgnoreCase(flightScheduleDTO.getToLocation())) {
-                            flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
-                        } else {
-                            throw new FBSException("Flight is not available with this location " + flightScheduleDTO.getToLocation() + " please choose different location");
-                        }*/
-
+                        flightSchedule.setToLocation(flightScheduleDTO.getFromLocation());
+                        flightSchedule.setFromLocation(flightScheduleDTO.getToLocation());
+                        flightSchedule.setTicketPrice(flight.getTicketPrice());
                         if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
                             flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightSchedule.getStartDateTime()));
                             flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightSchedule.getEndDataTime()));

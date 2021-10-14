@@ -2,20 +2,18 @@ package com.fbs.admin.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "FLIGHT")
 @Data
 public class Flight {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String flightNumber;
     private String flightModel;
-    private String fromLocation;
-    private String airLineCode;
-    private String toLocation;
+    private String airlineCode;
     private int availableSeats;
     private String meal;
+    private Double ticketPrice;
 }

@@ -26,6 +26,7 @@ public class FlightSchedule {
     private String toLocation;
     private String flightModel;
     private String meal;
+    private Double ticketPrice;
 
   /*  @OneToOne(cascade = CascadeType.ALL)
     private Schedule schedule;*/
