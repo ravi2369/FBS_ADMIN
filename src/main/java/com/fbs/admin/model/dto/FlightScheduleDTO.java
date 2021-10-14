@@ -8,7 +8,7 @@ public class FlightScheduleDTO {
     private String flightNumber;
     private String airLineCode;
     private String startDateTime;
-    private String endDataTime;
+    private String endDateTime;
     private String fromLocation;
     private String toLocation;
 }

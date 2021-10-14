@@ -27,7 +27,7 @@ public class FlightServiceImpl implements FlightService {
             if (!findById.isPresent()) {
                 return flightRepository.save(flight);
             } else
-                throw new FBSException("Flight with number: " + flight.getFlightNumber() + " already present");
+                throw new FBSException("Flight with number: " + flight.getFlightNumber() + " already exists");
         } else {
             throw new FBSException("Flight Number must not be empty");
         }

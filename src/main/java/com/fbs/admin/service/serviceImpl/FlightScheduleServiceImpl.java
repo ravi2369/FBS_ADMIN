@@ -49,9 +49,14 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     flightSchedule.setAirLineCode(airline.get().getAirLineCode());
                     flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
                     flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
-                    if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
+                    flight.setToLocation(flightScheduleDTO.getToLocation());
+                    flight.setFromLocation(flightScheduleDTO.getFromLocation());
+                    flightSchedule.setTicketPrice(flight.getTicketPrice());
+                    if (flightScheduleDTO.getStartDateTime() != null) {
                         flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getStartDateTime()));
-                        flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getEndDataTime()));
+                    }
+                    if (flightScheduleDTO.getEndDateTime() != null) {
+                        flightSchedule.setEndDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getEndDateTime()));
                     }
                     flightSchedule.setFlightModel(flight.getFlightModel());
                     flightSchedule.setMeal(flight.getMeal());
@@ -75,27 +80,30 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
             Optional<FlightSchedule> updateScheduleFlight = flightScheduleRepository.findById(flightScheduleDTO.getId());
             if (updateScheduleFlight.isPresent()) {
                 Optional<FlightSchedule> fs = flightScheduleRepository.findFlightSchedule(flightScheduleDTO.getAirLineCode(), flightScheduleDTO.getFlightNumber());
-                if (fs.isPresent()) {
-                    throw new FBSException("Flight schedule is already available for this " + fs.get().getAirLineCode() + " and " + fs.get().getFlightNumber());
+                if (!fs.isPresent()) {
+                    throw new FBSException("Flight schedule is not available for this " + fs.get().getAirLineCode() + " and " + fs.get().getFlightNumber());
                 }
-                FlightSchedule flightSchedule = new FlightSchedule();
                 Optional<AirlineDTO> airline = (airlineService.findAirline(flightScheduleDTO.getAirLineCode()));
                 if (airline != null) {
                     if (airline.get().getStatus().toString().equalsIgnoreCase("Unblock")) {
                         Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
-                        flightSchedule.setFlightNumber(flight.getFlightNumber());
-                        flightSchedule.setAirLineCode(airline.get().getAirLineCode());
-                        flightSchedule.setToLocation(flightScheduleDTO.getFromLocation());
-                        flightSchedule.setFromLocation(flightScheduleDTO.getToLocation());
-                        flightSchedule.setTicketPrice(flight.getTicketPrice());
-                        if (flightScheduleDTO.getStartDateTime() != null && flightScheduleDTO.getEndDataTime() != null) {
-                            flightSchedule.setStartDateTime((LocalDateTime) convertToFbsFormat(flightSchedule.getStartDateTime()));
-                            flightSchedule.setEndDataTime((LocalDateTime) convertToFbsFormat(flightSchedule.getEndDataTime()));
+                        updateScheduleFlight.get().setFlightNumber(flight.getFlightNumber());
+                        updateScheduleFlight.get().setAirLineCode(airline.get().getAirLineCode());
+                        updateScheduleFlight.get().setToLocation(flightScheduleDTO.getFromLocation());
+                        updateScheduleFlight.get().setFromLocation(flightScheduleDTO.getToLocation());
+                        updateScheduleFlight.get().setTicketPrice(flight.getTicketPrice());
+                        flight.setToLocation(flightScheduleDTO.getToLocation());
+                        flight.setFromLocation(flightScheduleDTO.getFromLocation());
+                        if (flightScheduleDTO.getStartDateTime() != null) {
+                            updateScheduleFlight.get().setStartDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getStartDateTime()));
                         }
-                        flightSchedule.setFlightModel(flight.getFlightModel());
-                        flightSchedule.setMeal(flight.getMeal());
-                        flightSchedule.setFlight(flight);
-                        return flightScheduleRepository.save(flightSchedule);
+                        if (flightScheduleDTO.getEndDateTime() != null) {
+                            updateScheduleFlight.get().setEndDateTime((LocalDateTime) convertToFbsFormat(flightScheduleDTO.getEndDateTime()));
+                        }
+                        updateScheduleFlight.get().setFlightModel(flight.getFlightModel());
+                        updateScheduleFlight.get().setMeal(flight.getMeal());
+                        updateScheduleFlight.get().setFlight(flight);
+                        return flightScheduleRepository.save(updateScheduleFlight.get());
                     } else {
                         throw new FBSException("Airline with this " + airline.get().getAirLineCode() + " code is Blocked, please take another airline");
                     }

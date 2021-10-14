@@ -6,7 +6,6 @@ import com.fbs.admin.service.FlightScheduleService;
 import com.fbs.admin.service.FlightService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class FlightScheduleController {
         }
     }
 
-    @RequestMapping(value = "/modify", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/modify")
     public ResponseEntity modifyFlightSchedule(@RequestBody FlightScheduleDTO flightScheduleDTO) {
         log.info("{}--> inside modifyFlightSchedule() <---{}");
         try {

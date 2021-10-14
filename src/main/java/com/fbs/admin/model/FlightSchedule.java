@@ -21,13 +21,10 @@ public class FlightSchedule {
     @JsonIgnore
     private Flight flight;
     private LocalDateTime startDateTime;
-    private LocalDateTime endDataTime;
+    private LocalDateTime endDateTime;
     private String fromLocation;
     private String toLocation;
     private String flightModel;
     private String meal;
     private Double ticketPrice;
-
-  /*  @OneToOne(cascade = CascadeType.ALL)
-    private Schedule schedule;*/
 }
