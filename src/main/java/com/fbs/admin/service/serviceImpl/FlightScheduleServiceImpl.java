@@ -47,6 +47,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
                     flightSchedule.setFlightNumber(flight.getFlightNumber());
                     flightSchedule.setAirLineCode(airline.get().getAirLineCode());
+                    flightSchedule.setAirLineName(airline.get().getAirLineName());
                     flightSchedule.setToLocation(flightScheduleDTO.getToLocation());
                     flightSchedule.setFromLocation(flightScheduleDTO.getFromLocation());
                     flight.setToLocation(flightScheduleDTO.getToLocation());
@@ -89,8 +90,9 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                         Flight flight = flightService.findFlight(flightScheduleDTO.getFlightNumber());
                         updateScheduleFlight.get().setFlightNumber(flight.getFlightNumber());
                         updateScheduleFlight.get().setAirLineCode(airline.get().getAirLineCode());
-                        updateScheduleFlight.get().setToLocation(flightScheduleDTO.getFromLocation());
-                        updateScheduleFlight.get().setFromLocation(flightScheduleDTO.getToLocation());
+                        updateScheduleFlight.get().setAirLineName(airline.get().getAirLineName());
+                        updateScheduleFlight.get().setToLocation(flightScheduleDTO.getToLocation());
+                        updateScheduleFlight.get().setFromLocation(flightScheduleDTO.getFromLocation());
                         updateScheduleFlight.get().setTicketPrice(flight.getTicketPrice());
                         flight.setToLocation(flightScheduleDTO.getToLocation());
                         flight.setFromLocation(flightScheduleDTO.getFromLocation());
@@ -133,16 +135,16 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     @Override
-    public FlightSchedule findFlightSchedule(String fromLocation, String toLocation, String startDateTime) throws FBSException {
-        if (startDateTime == null) {
-            throw new FBSException("Please select journey date");
+    public List<FlightSchedule> findFlightSchedule(String fromLocation, String toLocation) throws FBSException {
+        if (fromLocation != null && toLocation != null) {
+            List<FlightSchedule> flightSchedule = flightScheduleRepository.findScheduledFlights(fromLocation, toLocation);
+            if (!flightSchedule.isEmpty()) {
+                return flightSchedule;
+            } else
+                throw new FBSException("flight schedule is not available");
+        } else {
+            throw new FBSException("Please select  fromLocation & toLocation");
         }
-        Object startDate = convertToFbsFormat(startDateTime);
-        Optional<FlightSchedule> flightSchedule = flightScheduleRepository.findScheduledFlights(fromLocation, toLocation, (LocalDateTime) startDate);
-        if (flightSchedule.isPresent())
-            return flightSchedule.get();
-        else
-            throw new FBSException("flight schedule is not available");
     }
 
     @Override

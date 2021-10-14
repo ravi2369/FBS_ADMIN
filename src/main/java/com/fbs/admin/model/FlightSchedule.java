@@ -17,6 +17,8 @@ public class FlightSchedule {
     private Long id;
     private String flightNumber;
     private String airLineCode;
+    @JsonIgnore
+    private String airLineName;
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Flight flight;

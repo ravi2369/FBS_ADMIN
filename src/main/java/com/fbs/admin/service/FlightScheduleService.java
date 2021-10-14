@@ -13,7 +13,7 @@ public interface FlightScheduleService {
 
     String deleteFlightSchedule(Long id) throws FBSException;
 
-    FlightSchedule findFlightSchedule(String fromLocation, String toLocation, String startDateTime) throws FBSException;
+    List<FlightSchedule> findFlightSchedule(String fromLocation, String toLocation) throws FBSException;
 
     List<FlightSchedule> findAllFlightSchedules();
 }

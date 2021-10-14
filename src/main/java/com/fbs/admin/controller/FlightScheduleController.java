@@ -56,10 +56,10 @@ public class FlightScheduleController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity searchFlightSchedule(@RequestParam String fromLocation, @RequestParam String toLocation, @RequestParam String startDateTime) {
+    public ResponseEntity searchFlightSchedule(@RequestParam String fromLocation, @RequestParam String toLocation) {
         log.info("{}--> inside searchFlightSchedule() <---{}");
         try {
-            return ResponseEntity.ok().body(flightScheduleService.findFlightSchedule(fromLocation, toLocation, startDateTime));
+            return ResponseEntity.ok().body(flightScheduleService.findFlightSchedule(fromLocation, toLocation));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
