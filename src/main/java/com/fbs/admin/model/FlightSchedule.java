@@ -16,8 +16,8 @@ public class FlightSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String flightNumber;
-    private String airLineCode;
     @JsonIgnore
+    private String airLineCode;
     private String airLineName;
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore

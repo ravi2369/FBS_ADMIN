@@ -18,4 +18,7 @@ public interface FlightScheduleRepository extends JpaRepository<FlightSchedule, 
     @Query("SELECT FS FROM FlightSchedule FS WHERE FS.fromLocation LIKE ?1% and FS.toLocation LIKE ?2%")
     List<FlightSchedule> findScheduledFlights(String fromLocation, String toLocation) throws FBSException;
 
+    @Query("SELECT FS FROM FlightSchedule FS WHERE FS.flightNumber = ?1%")
+    Optional<FlightSchedule> findScheduledFlight(String flightNumber) throws FBSException;
+
 }
