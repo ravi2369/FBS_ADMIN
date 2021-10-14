@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextListener;
 
 @Configuration
 @EnableConfigurationProperties
-public class fbsAdminWebConfig {
+public class FBSAdminWebConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
