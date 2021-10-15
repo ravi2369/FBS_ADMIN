@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class FlightSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long flightScheduleId;
     private String flightNumber;
     @JsonIgnore
     private String airLineCode;

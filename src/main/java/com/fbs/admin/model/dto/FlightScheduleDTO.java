@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class FlightScheduleDTO {
-    private Long id;
+    private Long flightScheduleId;
     private String flightNumber;
     private String airLineCode;
     private String startDateTime;

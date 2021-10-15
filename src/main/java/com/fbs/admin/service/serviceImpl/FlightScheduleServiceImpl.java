@@ -77,8 +77,8 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
 
     @Override
     public FlightSchedule updateFlightSchedule(FlightScheduleDTO flightScheduleDTO) {
-        if (flightScheduleDTO.getId() != null && flightScheduleDTO.getAirLineCode() != null && flightScheduleDTO.getFlightNumber() != null) {
-            Optional<FlightSchedule> updateScheduleFlight = flightScheduleRepository.findById(flightScheduleDTO.getId());
+        if (flightScheduleDTO.getFlightScheduleId() != null && flightScheduleDTO.getAirLineCode() != null && flightScheduleDTO.getFlightNumber() != null) {
+            Optional<FlightSchedule> updateScheduleFlight = flightScheduleRepository.findById(flightScheduleDTO.getFlightScheduleId());
             if (updateScheduleFlight.isPresent()) {
                 Optional<FlightSchedule> fs = flightScheduleRepository.findFlightSchedule(flightScheduleDTO.getAirLineCode(), flightScheduleDTO.getFlightNumber());
                 if (!fs.isPresent()) {
@@ -113,10 +113,10 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                     throw new FBSException("Airline with code : " + airline.get().getAirLineCode() + " not exists");
                 }
             } else {
-                throw new FBSException("Scheduled Airline is not found with this " + flightScheduleDTO.getId() + " id and " + flightScheduleDTO.getFlightNumber() + "," + flightScheduleDTO.getAirLineCode() + " Please schedule once again");
+                throw new FBSException("Scheduled Airline is not found with this " + flightScheduleDTO.getFlightScheduleId() + " id and " + flightScheduleDTO.getFlightNumber() + "," + flightScheduleDTO.getAirLineCode() + " Please schedule once again");
             }
         } else {
-            throw new FBSException("Scheduled Id " + flightScheduleDTO.getId() + " Flight Number " + flightScheduleDTO.getFlightNumber() + " Airline Code " + flightScheduleDTO.getAirLineCode());
+            throw new FBSException("Scheduled Id " + flightScheduleDTO.getFlightScheduleId() + " Flight Number " + flightScheduleDTO.getFlightNumber() + " Airline Code " + flightScheduleDTO.getAirLineCode());
         }
     }
 
