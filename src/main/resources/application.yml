@@ -3,7 +3,10 @@ server:
     context-path: /fbs/admin
   port: 9001
 
+
 spring:
+  application:
+    name: admin-client
   main:
     allow-bean-definition-overriding: true
   datasource:
@@ -25,6 +28,11 @@ spring:
 ---
 jackson:
   date-format: "dd-MM-yyyy HH:mm:ss"
+---
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:11161/eureka/
 
 
 
